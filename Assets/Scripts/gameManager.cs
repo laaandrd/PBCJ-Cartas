@@ -1,0 +1,166 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Sprites;
+
+public class gameManager : MonoBehaviour
+{
+    public GameObject centroDaTela;     //referência ao centro da tela
+    public GameObject deck;             //prefab do GameObject deck
+
+    public List<GameObject> decks;                  //lista de decks (caso mais de um seja usado) presentes no jogo
+    public GameObject card1 = null, card2 = null;   //referencias às cartas selecionadas no jogo
+
+    public int gameMode;        //PlayerPref utilizado na seleção do modo de jogo
+    public int easyGameRecord;      //PlayerPref utilizado para marcar o record de cada modo de jogo
+    public int regularGameRecord;
+    public int hardGameRecord;
+    public int score;           //variável utilizada para marcar o score de uma partida
+
+    float timeHolder = 0.0f;
+    bool isTimerOn;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        gameMode = PlayerPrefs.GetInt("gameMode");
+        
+        //modo de jogo EASY: dois baralhos de diferentes cores, encontrar um par de cartas iguais
+        if(gameMode == 1)
+        {
+            easyGameRecord = PlayerPrefs.GetInt("easyGameRecord");
+            OpenDefaultDeck("preto");
+            OpenDefaultDeck("branco");
+        }
+    
+        //modo de jogo REGULAR: ??? (sugestão: dois baralhos diferentes, definir um par de cartas relacionadas, não iguais)
+        if(gameMode == 2)
+        {
+
+        }
+
+        //modo de jogo HARD: ??? (sugestão: um misto dos dois jogos acima)
+        if(gameMode == 3)
+        {
+            hardGameRecord = PlayerPrefs.GetInt("easyGameRecord");
+            OpenDefaultDeck("preto");
+            OpenDefaultDeck("branco");
+            OpenDefaultDeck("preto");
+            OpenDefaultDeck("branco");
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(gameMode == 1)
+        {
+            if (isTimerOn)
+            {
+                timeHolder += Time.deltaTime;
+                if (timeHolder > 1.3f)
+                {
+                    VerifyCards();
+                }
+            }
+        }
+        
+    }
+
+    public void OpenDefaultDeck(string backType)
+    {
+        this.centroDaTela = GameObject.Find("centroDaTela");
+        Vector3 pos = new Vector3(centroDaTela.transform.position.x, centroDaTela.transform.position.y, centroDaTela.transform.position.z);
+        GameObject gameDeck = (GameObject)Instantiate(deck, pos, Quaternion.identity);
+        gameDeck.GetComponent<Deck>().backTypes[0] = backType;
+        gameDeck.GetComponent<Deck>().id = decks.Count;
+        gameDeck.name = "gameDeck_" + gameDeck.GetComponent<Deck>().id;
+        gameDeck.GetComponent<Deck>().SetDefaultDeck();
+        gameDeck.GetComponent<Deck>().ShuffleDeck();
+        decks.Add(gameDeck);
+        OrganizeCards();
+    }
+
+    public void OrganizeCards()
+    {
+        int decksCount = 1;
+        foreach(GameObject gameDeck in decks)
+        {
+            float yPosition = -2.8f * ((float)decksCount - ((float)decks.Count +1.0f)/2.0f);
+            //print("yPos = " + yPosition);
+            int cardsCount = 1;
+            foreach(GameObject gameCard in gameDeck.GetComponent<Deck>().cards)
+            {
+                float xPosition = 2.5f * ((float)cardsCount - ((float)gameDeck.GetComponent<Deck>().cards.Count +1.0f)/2.0f);
+                //print("xPos = " + xPosition);
+                Vector3 newPosition = new Vector3(xPosition, yPosition, gameCard.transform.position.z);
+                gameCard.transform.position = newPosition;
+                cardsCount++;
+            }
+            decksCount++;
+        }
+    }
+
+    public void SelectCard(GameObject card)
+    {
+        if(card1 == null)
+        {
+            card1 = card;
+            card.GetComponent<Card>().ShowCard();
+        }
+        else if(card2 == null && (card.GetComponent<Card>().deck.GetComponent<Deck>().id % 2 ) != card1.GetComponent<Card>().deck.GetComponent<Deck>().id % 2)
+        {
+            card2 = card;
+            card.GetComponent<Card>().ShowCard();
+            isTimerOn = true;
+        }
+    }
+
+    public void VerifyCards()
+    {
+        // Essa verificação é para o modo fácil do jogo
+        if (card1 != null && card2 != null)
+        {
+            if (card1.GetComponent<Card>().ToString().Equals(card2.GetComponent<Card>().ToString()))
+            {
+                card1.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card1);   //remove a carta1 do seu deck
+                card2.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card2);   //remove a carta2 do seu deck
+                Destroy(card1);     //destrói o GameObject referente à carta1
+                Destroy(card2);     //destrói o GameObject referente à carta2
+            }
+            else
+            {
+                card1.GetComponent<Card>().HideCard();
+                card2.GetComponent<Card>().HideCard();
+
+                card1 = null;
+                card2 = null;
+            }
+            
+            isTimerOn = false;
+            timeHolder = 0.0f;
+            
+            int cardsLeft = 0;
+            foreach(GameObject deck in decks)
+            {
+                foreach(GameObject card in deck.GetComponent<Deck>().cards)
+                {
+                    if(card != null)
+                    {
+                        cardsLeft++; //faz a contagem do número de cartas restante em todos os baralhos
+                    }
+                }
+            }
+
+            print("Cards left: " + cardsLeft);
+
+            if(cardsLeft == 0)
+            {
+                print("VITORIA, FIM DE JOGO"); //a vitória acontece quando não há mais cartas
+            }
+
+        }
+    }
+
+ 
+}
