@@ -133,6 +133,7 @@ public class gameManager : MonoBehaviour
         {
             if (card1.GetComponent<Card>().ToString().Equals(card2.GetComponent<Card>().ToString()))
             {
+                FindObjectOfType<AudioManager>().Play("Right");
                 card1.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card1);   //remove a carta1 do seu deck
                 card2.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card2);   //remove a carta2 do seu deck
                 Destroy(card1);     //destr�i o GameObject referente � carta1
@@ -140,6 +141,7 @@ public class gameManager : MonoBehaviour
             }
             else
             {
+                FindObjectOfType<AudioManager>().Play("Wrong");
                 card1.GetComponent<Card>().HideCard();
                 card2.GetComponent<Card>().HideCard();
 

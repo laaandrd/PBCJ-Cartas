@@ -40,4 +40,9 @@ public class scoreListManager : MonoBehaviour
     {
         
     }
+
+    // Deleta as pontuações salvas
+    public void DeleteScores() {
+        FindObjectOfType<scoreList>().DeleteList(); 
+    }
 }

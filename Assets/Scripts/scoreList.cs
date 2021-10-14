@@ -61,4 +61,8 @@ public class scoreList : MonoBehaviour
     {
         return scores.ToArray();
     }
+
+    public void DeleteList() {
+        PlayerPrefs.SetString("RecordList", "");
+    }
 }
