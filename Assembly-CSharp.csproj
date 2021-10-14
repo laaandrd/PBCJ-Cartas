@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Card.cs" />
+     <Compile Include="Assets\Scripts\numAttemptsManager.cs" />
      <Compile Include="Assets\Scripts\AudioManager.cs" />
      <Compile Include="Assets\Scripts\gameManager.cs" />
      <Compile Include="Assets\Scripts\Sound.cs" />
@@ -45,7 +46,9 @@
      <Compile Include="Assets\Scripts\returnToMenuButtonManager.cs" />
      <Compile Include="Assets\Scripts\modeButtonsManager.cs" />
      <Compile Include="Assets\Scripts\Deck.cs" />
-     <Compile Include="Assets\Scripts\numAttemptsManager.cs" />
+     <Compile Include="Assets\Scripts\scoreListManager.cs" />
+     <Compile Include="Assets\Scripts\scoreList.cs" />
+     <Compile Include="Assets\Scripts\scoreListButtonManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/home/marcelocfsf/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -622,6 +625,9 @@
     <Reference Include="Unity.VisualStudio.Editor">
         <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Sysroot.Linux_x86_64">
+        <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.Sysroot.Linux_x86_64.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -631,17 +637,14 @@
     <Reference Include="Unity.TextMeshPro">
         <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Toolchain.Linux-x86_64">
+        <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.Toolchain.Linux-x86_64.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
         <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
         <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Sysroot.Linux_x86_64">
-        <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.Sysroot.Linux_x86_64.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Toolchain.Linux-x86_64">
-        <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.Toolchain.Linux-x86_64.dll</HintPath>
     </Reference>
     <Reference Include="Unity.SysrootPackage.Editor">
         <HintPath>/home/marcelocfsf/Documents/UFABC/Programacao_Baseada_em_Componentes_para_Jogos/PBCJ-Cartas/Library/ScriptAssemblies/Unity.SysrootPackage.Editor.dll</HintPath>

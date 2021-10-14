@@ -29,6 +29,9 @@ public class gameManager : MonoBehaviour
         GameObject.Find("numAttempts").GetComponent<Text>().text = "Tentativas: " + numAttempts;
         PlayerPrefs.SetInt("numAttempts", numAttempts);
 
+        int record = FindObjectOfType<scoreList>().GetBestRecord();
+        GameObject.Find("record").GetComponent<Text>().text = "Record: " + record;
+
         gameMode = PlayerPrefs.GetInt("gameMode");
         
         //modo de jogo EASY: dois baralhos de diferentes cores, encontrar um par de cartas iguais
@@ -164,6 +167,7 @@ public class gameManager : MonoBehaviour
             if(cardsLeft == 0)
             {
                 print("VITORIA, FIM DE JOGO"); //a vit�ria acontece quando n�o h� mais cartas
+                FindObjectOfType<scoreList>().AddRecord(numAttempts);
                 SceneManager.LoadScene("EndScene"); // chama a tela de finalização
             }
 
@@ -171,7 +175,8 @@ public class gameManager : MonoBehaviour
     }
 
     // Função que incrementa em um a quantidade de tentativas e a salva
-    public void UpdateAttempts() {
+    public void UpdateAttempts() 
+    {
         numAttempts++;
         GameObject.Find("numAttempts").GetComponent<Text>().text = "Tentativas: " + numAttempts;
         PlayerPrefs.SetInt("numAttempts", numAttempts);
