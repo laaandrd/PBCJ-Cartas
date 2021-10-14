@@ -68,6 +68,11 @@ public class Deck : MonoBehaviour
         cards.Add(NewCard(2, "arroz", "pares1"));
         cards.Add(NewCard(3, "beija-flor", "pares1"));
         cards.Add(NewCard(4, "navegador", "pares1"));
+        cards.Add(NewCard(5, "carro", "pares1"));
+        cards.Add(NewCard(6, "carta", "pares1"));
+        cards.Add(NewCard(7, "fazendeiro", "pares1"));
+        cards.Add(NewCard(8, "flocoDeNeve", "pares1"));
+        cards.Add(NewCard(9, "fogo", "pares1"));
     }
 
     public void SetPairDeck2()
@@ -77,6 +82,11 @@ public class Deck : MonoBehaviour
         cards.Add(NewCard(2, "feijao", "pares2"));
         cards.Add(NewCard(3, "flor", "pares2"));
         cards.Add(NewCard(4, "oceano", "pares2"));
+        cards.Add(NewCard(5, "estrada", "pares2"));
+        cards.Add(NewCard(6, "baralho", "pares2"));
+        cards.Add(NewCard(7, "fazenda", "pares2"));
+        cards.Add(NewCard(8, "bonecoDeNeve", "pares2"));
+        cards.Add(NewCard(9, "fogueira", "pares2"));
     }
 
     //m�todos respons�vel por embaralhar as cartas do baralho

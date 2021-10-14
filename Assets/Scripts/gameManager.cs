@@ -19,6 +19,7 @@ public class gameManager : MonoBehaviour
     public int hardGameRecord;
     public int score;           //vari�vel utilizada para marcar o score de uma partida
     public int numAttempts = 0; // variavel que armazena a quantidade de tentativas 
+    public Camera m_OrthographicCamera; // Camera do jogo
 
     float timeHolder = 0.0f;
     bool isTimerOn;
@@ -58,6 +59,9 @@ public class gameManager : MonoBehaviour
             OpenDefaultDeck("branco");
             OpenPairDeck("preto", 1);
             OpenPairDeck("branco", 2);
+
+            // Altera tamanho da camera para caber todas as cartas
+            m_OrthographicCamera.orthographicSize = 5.0f; 
         }
     }
 

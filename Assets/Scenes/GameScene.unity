@@ -390,6 +390,7 @@ MonoBehaviour:
   hardGameRecord: 0
   score: 0
   numAttempts: 0
+  m_OrthographicCamera: {fileID: 519420031}
 --- !u!4 &1729143194
 Transform:
   m_ObjectHideFlags: 0
