@@ -45,33 +45,32 @@ public class gameManager : MonoBehaviour
         //modo de jogo REGULAR: ??? (sugest�o: dois baralhos diferentes, definir um par de cartas relacionadas, n�o iguais)
         if(gameMode == 2)
         {
-
+            regularGameRecord = PlayerPrefs.GetInt("regularGameRecord");
+            OpenPairDeck("preto", 1);
+            OpenPairDeck("branco", 2);
         }
 
         //modo de jogo HARD: ??? (sugest�o: um misto dos dois jogos acima)
         if(gameMode == 3)
         {
-            hardGameRecord = PlayerPrefs.GetInt("easyGameRecord");
+            hardGameRecord = PlayerPrefs.GetInt("hardGameRecord");
             OpenDefaultDeck("preto");
             OpenDefaultDeck("branco");
-            OpenDefaultDeck("preto");
-            OpenDefaultDeck("branco");
+            OpenPairDeck("preto", 1);
+            OpenPairDeck("branco", 2);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(gameMode == 1)
+        if (isTimerOn)
         {
-            if (isTimerOn)
+            timeHolder += Time.deltaTime;
+            if (timeHolder > 1.3f)
             {
-                timeHolder += Time.deltaTime;
-                if (timeHolder > 1.3f)
-                {
-                    UpdateAttempts(); // Atualiza a quantidade de tentativas
-                    VerifyCards();
-                }
+                UpdateAttempts(); // Atualiza a quantidade de tentativas
+                VerifyCards();
             }
         }
         
@@ -91,17 +90,38 @@ public class gameManager : MonoBehaviour
         OrganizeCards();
     }
 
+    public void OpenPairDeck(string backType, int pairDeck)
+    {
+        this.centroDaTela = GameObject.Find("centroDaTela");
+        Vector3 pos = new Vector3(centroDaTela.transform.position.x, centroDaTela.transform.position.y, centroDaTela.transform.position.z);
+        GameObject gameDeck = (GameObject)Instantiate(deck, pos, Quaternion.identity);
+        gameDeck.GetComponent<Deck>().backTypes[0] = backType;
+        gameDeck.GetComponent<Deck>().id = decks.Count;
+        gameDeck.name = "gameDeck_" + gameDeck.GetComponent<Deck>().id;
+        if(pairDeck == 1)
+        {
+            gameDeck.GetComponent<Deck>().SetPairDeck1();
+        }
+        else if(pairDeck == 2)
+        {
+            gameDeck.GetComponent<Deck>().SetPairDeck2();
+        }
+        gameDeck.GetComponent<Deck>().ShuffleDeck();
+        decks.Add(gameDeck);
+        OrganizeCards();
+    }
+
     public void OrganizeCards()
     {
         int decksCount = 1;
         foreach(GameObject gameDeck in decks)
         {
-            float yPosition = -2.8f * ((float)decksCount - ((float)decks.Count +1.0f)/2.0f);
+            float yPosition = -2.8f * ((float)decksCount - ((float)decks.Count +1.0f)/2.0f);    //posiciona cada baralho em uma linha
             //print("yPos = " + yPosition);
             int cardsCount = 1;
             foreach(GameObject gameCard in gameDeck.GetComponent<Deck>().cards)
             {
-                float xPosition = 2.5f * ((float)cardsCount - ((float)gameDeck.GetComponent<Deck>().cards.Count +1.0f)/2.0f);
+                float xPosition = 2.5f * ((float)cardsCount - ((float)gameDeck.GetComponent<Deck>().cards.Count +1.0f)/2.0f);   //posiciona cada carta em uma coluna
                 //print("xPos = " + xPosition);
                 Vector3 newPosition = new Vector3(xPosition, yPosition, gameCard.transform.position.z);
                 gameCard.transform.position = newPosition;
@@ -131,13 +151,45 @@ public class gameManager : MonoBehaviour
         // Essa verifica��o � para o modo f�cil do jogo
         if (card1 != null && card2 != null)
         {
-            if (card1.GetComponent<Card>().ToString().Equals(card2.GetComponent<Card>().ToString()))
+            if((card1.GetComponent<Card>().suit == "pares1" || card1.GetComponent<Card>().suit == "pares2") && (card2.GetComponent<Card>().suit == "pares1" || card2.GetComponent<Card>().suit == "pares2"))
             {
-                FindObjectOfType<AudioManager>().Play("Right");
-                card1.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card1);   //remove a carta1 do seu deck
-                card2.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card2);   //remove a carta2 do seu deck
-                Destroy(card1);     //destr�i o GameObject referente � carta1
-                Destroy(card2);     //destr�i o GameObject referente � carta2
+                if (card1.GetComponent<Card>().value == card2.GetComponent<Card>().value)
+                {
+                    FindObjectOfType<AudioManager>().Play("Right");
+                    card1.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card1);   //remove a carta1 do seu deck
+                    card2.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card2);   //remove a carta2 do seu deck
+                    Destroy(card1);     //destr�i o GameObject referente � carta1
+                    Destroy(card2);     //destr�i o GameObject referente � carta2
+                }
+                else
+                {
+                    FindObjectOfType<AudioManager>().Play("Wrong");
+                    card1.GetComponent<Card>().HideCard();
+                    card2.GetComponent<Card>().HideCard();
+
+                    card1 = null;
+                    card2 = null;
+                }
+            }
+            else if ((card1.GetComponent<Card>().suit == "random" || card1.GetComponent<Card>().suit == "solid") && (card2.GetComponent<Card>().suit == "random" || card2.GetComponent<Card>().suit == "solid"))
+            {
+                if (card1.GetComponent<Card>().ToString().Equals(card2.GetComponent<Card>().ToString()))
+                {
+                    FindObjectOfType<AudioManager>().Play("Right");
+                    card1.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card1);   //remove a carta1 do seu deck
+                    card2.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card2);   //remove a carta2 do seu deck
+                    Destroy(card1);     //destr�i o GameObject referente � carta1
+                    Destroy(card2);     //destr�i o GameObject referente � carta2
+                }
+                else
+                {
+                    FindObjectOfType<AudioManager>().Play("Wrong");
+                    card1.GetComponent<Card>().HideCard();
+                    card2.GetComponent<Card>().HideCard();
+
+                    card1 = null;
+                    card2 = null;
+                }
             }
             else
             {

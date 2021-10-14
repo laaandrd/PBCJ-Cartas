@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    public GameObject basicCard;    //asset do modelo básico de uma carta
+    public GameObject basicCard;    //asset do modelo bï¿½sico de uma carta
     public int id;                  //identificador do baralho
-    public string [] backTypes;     //tipos/cores da parte de trás do baralho
+    public string [] backTypes;     //tipos/cores da parte de trï¿½s do baralho
 
-    public List<GameObject> cards;  //lista dos GameObjects referentes às cartas do baralho
+    public List<GameObject> cards;  //lista dos GameObjects referentes ï¿½s cartas do baralho
 
     //cria uma nova carta com a cor principal do baralho
     public GameObject NewCard(int value, string ident, string suit)
@@ -45,7 +45,7 @@ public class Deck : MonoBehaviour
         return gameCard;
     }
 
-    //As cartas são adicionadas uma a uma no baralho, seguindo as especificações passadas
+    //As cartas sï¿½o adicionadas uma a uma no baralho, seguindo as especificaï¿½ï¿½es passadas
     public void SetDefaultDeck()
     {
         gameObject.transform.SetParent(GameObject.Find("Canvas").transform);
@@ -53,23 +53,41 @@ public class Deck : MonoBehaviour
         cards.Add(NewCard(1, "card1", "random"));
         cards.Add(NewCard(2, "card2", "random"));
         cards.Add(NewCard(3, "card3", "random"));
-        cards.Add(NewCard(4, "verde", "solid"));
-        cards.Add(NewCard(5, "lilas", "solid"));
+        cards.Add(NewCard(4, "card4", "random"));
+        cards.Add(NewCard(5, "card5", "random"));
         cards.Add(NewCard(6, "roxo", "solid"));
         cards.Add(NewCard(7, "marrom", "solid"));
         cards.Add(NewCard(8, "amarelo", "solid"));
         cards.Add(NewCard(9, "anil", "solid"));
     }
 
-    //métodos responsável por embaralhar as cartas do baralho
+    public void SetPairDeck1()
+    {
+        this.cards = new List<GameObject>();
+        cards.Add(NewCard(1, "alien", "pares1"));
+        cards.Add(NewCard(2, "arroz", "pares1"));
+        cards.Add(NewCard(3, "beija-flor", "pares1"));
+        cards.Add(NewCard(4, "navegador", "pares1"));
+    }
+
+    public void SetPairDeck2()
+    {
+        this.cards = new List<GameObject>();
+        cards.Add(NewCard(1, "espaco", "pares2"));
+        cards.Add(NewCard(2, "feijao", "pares2"));
+        cards.Add(NewCard(3, "flor", "pares2"));
+        cards.Add(NewCard(4, "oceano", "pares2"));
+    }
+
+    //mï¿½todos responsï¿½vel por embaralhar as cartas do baralho
     public void ShuffleDeck()
     {
         for(int i = 0; i < cards.Count; i++)
         {
             int index = Random.Range(0, cards.Count);
 
-            //como as sprites são renderizadas com base na distância que essas estão da câmera, é importante variar o valor
-            //da posição "Z" de cada uma, para o caso de um tipo de jogo em que as cartas serão sobrepostas
+            //como as sprites sï¿½o renderizadas com base na distï¿½ncia que essas estï¿½o da cï¿½mera, ï¿½ importante variar o valor
+            //da posiï¿½ï¿½o "Z" de cada uma, para o caso de um tipo de jogo em que as cartas serï¿½o sobrepostas
             Vector3 pos1, pos2;
             pos1 = new Vector3(cards[i].transform.position.x, cards[i].transform.position.y, cards[index].transform.position.z);
             pos2 = new Vector3(cards[index].transform.position.x, cards[index].transform.position.y, cards[i].transform.position.z);
