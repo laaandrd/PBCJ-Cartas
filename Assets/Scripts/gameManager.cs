@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Sprites;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class gameManager : MonoBehaviour
 {
-    public GameObject centroDaTela;     //referência ao centro da tela
+    public GameObject centroDaTela;     //referï¿½ncia ao centro da tela
     public GameObject deck;             //prefab do GameObject deck
 
     public List<GameObject> decks;                  //lista de decks (caso mais de um seja usado) presentes no jogo
-    public GameObject card1 = null, card2 = null;   //referencias às cartas selecionadas no jogo
+    public GameObject card1 = null, card2 = null;   //referencias ï¿½s cartas selecionadas no jogo
 
-    public int gameMode;        //PlayerPref utilizado na seleção do modo de jogo
+    public int gameMode;        //PlayerPref utilizado na seleï¿½ï¿½o do modo de jogo
     public int easyGameRecord;      //PlayerPref utilizado para marcar o record de cada modo de jogo
     public int regularGameRecord;
     public int hardGameRecord;
-    public int score;           //variável utilizada para marcar o score de uma partida
+    public int score;           //variï¿½vel utilizada para marcar o score de uma partida
+    public int numAttempts = 0; // variavel que armazena a quantidade de tentativas 
 
     float timeHolder = 0.0f;
     bool isTimerOn;
@@ -23,6 +26,9 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameObject.Find("numAttempts").GetComponent<Text>().text = "Tentativas: " + numAttempts;
+        PlayerPrefs.SetInt("numAttempts", numAttempts);
+
         gameMode = PlayerPrefs.GetInt("gameMode");
         
         //modo de jogo EASY: dois baralhos de diferentes cores, encontrar um par de cartas iguais
@@ -33,13 +39,13 @@ public class gameManager : MonoBehaviour
             OpenDefaultDeck("branco");
         }
     
-        //modo de jogo REGULAR: ??? (sugestão: dois baralhos diferentes, definir um par de cartas relacionadas, não iguais)
+        //modo de jogo REGULAR: ??? (sugestï¿½o: dois baralhos diferentes, definir um par de cartas relacionadas, nï¿½o iguais)
         if(gameMode == 2)
         {
 
         }
 
-        //modo de jogo HARD: ??? (sugestão: um misto dos dois jogos acima)
+        //modo de jogo HARD: ??? (sugestï¿½o: um misto dos dois jogos acima)
         if(gameMode == 3)
         {
             hardGameRecord = PlayerPrefs.GetInt("easyGameRecord");
@@ -60,6 +66,7 @@ public class gameManager : MonoBehaviour
                 timeHolder += Time.deltaTime;
                 if (timeHolder > 1.3f)
                 {
+                    UpdateAttempts(); // Atualiza a quantidade de tentativas
                     VerifyCards();
                 }
             }
@@ -118,15 +125,15 @@ public class gameManager : MonoBehaviour
 
     public void VerifyCards()
     {
-        // Essa verificação é para o modo fácil do jogo
+        // Essa verificaï¿½ï¿½o ï¿½ para o modo fï¿½cil do jogo
         if (card1 != null && card2 != null)
         {
             if (card1.GetComponent<Card>().ToString().Equals(card2.GetComponent<Card>().ToString()))
             {
                 card1.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card1);   //remove a carta1 do seu deck
                 card2.GetComponent<Card>().deck.GetComponent<Deck>().cards.Remove(card2);   //remove a carta2 do seu deck
-                Destroy(card1);     //destrói o GameObject referente à carta1
-                Destroy(card2);     //destrói o GameObject referente à carta2
+                Destroy(card1);     //destrï¿½i o GameObject referente ï¿½ carta1
+                Destroy(card2);     //destrï¿½i o GameObject referente ï¿½ carta2
             }
             else
             {
@@ -147,7 +154,7 @@ public class gameManager : MonoBehaviour
                 {
                     if(card != null)
                     {
-                        cardsLeft++; //faz a contagem do número de cartas restante em todos os baralhos
+                        cardsLeft++; //faz a contagem do nï¿½mero de cartas restante em todos os baralhos
                     }
                 }
             }
@@ -156,11 +163,17 @@ public class gameManager : MonoBehaviour
 
             if(cardsLeft == 0)
             {
-                print("VITORIA, FIM DE JOGO"); //a vitória acontece quando não há mais cartas
+                print("VITORIA, FIM DE JOGO"); //a vitï¿½ria acontece quando nï¿½o hï¿½ mais cartas
+                SceneManager.LoadScene("EndScene"); // chama a tela de finalizaÃ§Ã£o
             }
 
         }
     }
 
- 
+    // FunÃ§Ã£o que incrementa em um a quantidade de tentativas e a salva
+    public void UpdateAttempts() {
+        numAttempts++;
+        GameObject.Find("numAttempts").GetComponent<Text>().text = "Tentativas: " + numAttempts;
+        PlayerPrefs.SetInt("numAttempts", numAttempts);
+    }
 }
