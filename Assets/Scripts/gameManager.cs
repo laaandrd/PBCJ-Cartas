@@ -30,10 +30,11 @@ public class gameManager : MonoBehaviour
         GameObject.Find("numAttempts").GetComponent<Text>().text = "Tentativas: " + numAttempts;
         PlayerPrefs.SetInt("numAttempts", numAttempts);
 
-        int record = FindObjectOfType<scoreList>().GetRecord(gameMode);
-        GameObject.Find("record").GetComponent<Text>().text = "Record: " + record;
 
         gameMode = PlayerPrefs.GetInt("gameMode");
+        
+        int record = FindObjectOfType<scoreList>().GetRecord(gameMode);
+        GameObject.Find("record").GetComponent<Text>().text = "Record: " + record;
         
         //modo de jogo EASY: dois baralhos de diferentes cores, encontrar um par de cartas iguais
         if(gameMode == 1)

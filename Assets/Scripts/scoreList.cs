@@ -25,9 +25,9 @@ public class scoreList : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // Salva a lista de pontuações
-        easyScores = GetRecords("easyScores");
-        mediumScores = GetRecords("mediumScores");
-        hardScores = GetRecords("hardScores");
+        easyScores = SetRecords("easyScores");
+        mediumScores = SetRecords("mediumScores");
+        hardScores = SetRecords("hardScores");
     }
 
     // Update is called once per frame
@@ -44,9 +44,9 @@ public class scoreList : MonoBehaviour
             case 1:
                 return easyScores != null ? easyScores.First() : 0;
             case 2:
-                return easyScores != null ? easyScores.First() : 0;
+                return mediumScores != null ? mediumScores.First() : 0;
             case 3:
-                return easyScores != null ? easyScores.First() : 0;
+                return hardScores != null ? hardScores.First() : 0;
         }
 
         return 0;
@@ -110,9 +110,14 @@ public class scoreList : MonoBehaviour
         PlayerPrefs.SetString("RecordList", "");
     }
 
-    public List<int> GetRecords(string name) {
+    List<int> SetRecords(string name) {
         // Lê a lista de pontuações salva na memória
         string recordList = PlayerPrefs.GetString(name);
-        return new List<int>(Array.ConvertAll(recordList.Split(' '), int.Parse));
+        if (recordList != "")
+        {
+            return new List<int>(Array.ConvertAll(recordList.Split(' '), int.Parse));
+        }
+
+        return null;
     }
 }

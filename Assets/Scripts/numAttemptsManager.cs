@@ -16,6 +16,8 @@ public class numAttemptsManager : MonoBehaviour
 
         int record = FindObjectOfType<scoreList>().GetRecord(gameMode);
         GameObject.Find("record").GetComponent<Text>().text = "Recorde: " + record;
+        print("gameMode: " + gameMode);
+        print("record: " + record);
 
         if (numAttempts == record) FindObjectOfType<AudioManager>().Play("Victory");
     }

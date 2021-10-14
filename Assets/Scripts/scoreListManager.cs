@@ -7,9 +7,6 @@ public class scoreListManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    int[] easyScores; // Lista de pontuações
-    int[] mediumScores; // Lista de pontuações
-    int[] hardScores; // Lista de pontuações
     public Text Score; // Prefab para cada pontuação
     int lines = 5; // Quantidade de linhas para apresentar as pontuações
 
@@ -35,8 +32,8 @@ public class scoreListManager : MonoBehaviour
         {
             GameObject centroDaTela = GameObject.Find("centroDaTela");
             Vector3 pos = new Vector3(
-                centroDaTela.transform.position.x - 250 + (i / lines * 160), 
-                centroDaTela.transform.position.y + 80 - (y * 30), 
+                centroDaTela.transform.position.x - 250 + (y * 200), 
+                centroDaTela.transform.position.y + 80 - (i % lines * 30),
                 centroDaTela.transform.position.z
             );
 
@@ -44,7 +41,7 @@ public class scoreListManager : MonoBehaviour
             gameRecord.name = (i+ 1) + "º score";
             gameRecord.transform.SetParent(GameObject.Find("Canvas").transform);
             gameRecord.text = (i + 1) + "º " + score + " tentativas";
-            print(score + "\n");
+            print(gameMode + " " + score);
             i++;
         }
     }
