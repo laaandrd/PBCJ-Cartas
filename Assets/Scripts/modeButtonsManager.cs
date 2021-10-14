@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Botões para selecionar o nível de jogo
 public class modeButtonsManager : MonoBehaviour
 {
    public void StartEasyGame()

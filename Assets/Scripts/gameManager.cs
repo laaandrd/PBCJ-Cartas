@@ -29,7 +29,7 @@ public class gameManager : MonoBehaviour
         GameObject.Find("numAttempts").GetComponent<Text>().text = "Tentativas: " + numAttempts;
         PlayerPrefs.SetInt("numAttempts", numAttempts);
 
-        int record = FindObjectOfType<scoreList>().GetBestRecord();
+        int record = FindObjectOfType<scoreList>().GetRecord();
         GameObject.Find("record").GetComponent<Text>().text = "Record: " + record;
 
         gameMode = PlayerPrefs.GetInt("gameMode");
@@ -167,7 +167,7 @@ public class gameManager : MonoBehaviour
             if(cardsLeft == 0)
             {
                 print("VITORIA, FIM DE JOGO"); //a vit�ria acontece quando n�o h� mais cartas
-                FindObjectOfType<scoreList>().AddRecord(numAttempts);
+                FindObjectOfType<scoreList>().AddScore(numAttempts);
                 SceneManager.LoadScene("EndScene"); // chama a tela de finalização
             }
 
