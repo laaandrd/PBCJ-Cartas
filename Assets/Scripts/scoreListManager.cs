@@ -7,13 +7,27 @@ public class scoreListManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    int[] scores; // Lista de pontuações
+    int[] easyScores; // Lista de pontuações
+    int[] mediumScores; // Lista de pontuações
+    int[] hardScores; // Lista de pontuações
     public Text Score; // Prefab para cada pontuação
     int lines = 5; // Quantidade de linhas para apresentar as pontuações
 
     void Start()
     {
-        scores = FindObjectOfType<scoreList>().ReadList(); // Carrega as Pontuações
+        GetRecords(1, 0);
+        GetRecords(2, 1);
+        GetRecords(3, 2);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    void GetRecords (int gameMode, int y) {
+        int[] scores = FindObjectOfType<scoreList>().ReadList(gameMode); // Carrega as Pontuações
         int i = 0;
 
         // Apresenta as pontuações, posicionando da com menos tentativas a com mais 
@@ -22,7 +36,7 @@ public class scoreListManager : MonoBehaviour
             GameObject centroDaTela = GameObject.Find("centroDaTela");
             Vector3 pos = new Vector3(
                 centroDaTela.transform.position.x - 250 + (i / lines * 160), 
-                centroDaTela.transform.position.y + 80 - ((i % lines) * 30), 
+                centroDaTela.transform.position.y + 80 - (y * 30), 
                 centroDaTela.transform.position.z
             );
 
@@ -33,12 +47,6 @@ public class scoreListManager : MonoBehaviour
             print(score + "\n");
             i++;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     // Deleta as pontuações salvas

@@ -262,7 +262,8 @@ MonoBehaviour:
   m_Text: "UFABC - PROGRAMA\xC7\xC3O BASEADA EM COMPONENTES PARA JOGOS - 2021.3\n\n\nLUCAS
     EMANUEL ANDRADA BARBOZA ............................. R.A.: 11201920925\nMARCELO
     CECILIO FAGUNDES DA SILVA FILHO .............. R.A.: 11201722880\nRUAN FERNANDES
-    ........................................................... R.A.: 11033016\n"
+    ........................................................... R.A.: 11033016\n\nCartas
+    feitas usando: https://www.pixilart.com/draw\nSons: https://freesound.org/"
 --- !u!222 &300556728
 CanvasRenderer:
   m_ObjectHideFlags: 0

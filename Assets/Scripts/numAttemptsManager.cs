@@ -12,7 +12,9 @@ public class numAttemptsManager : MonoBehaviour
         int numAttempts= PlayerPrefs.GetInt("numAttempts");
         GameObject.Find("numAttempts").GetComponent<Text>().text = "Tentativas: " + numAttempts;
         
-        int record = FindObjectOfType<scoreList>().GetRecord();
+        int gameMode = PlayerPrefs.GetInt("gameMode");
+
+        int record = FindObjectOfType<scoreList>().GetRecord(gameMode);
         GameObject.Find("record").GetComponent<Text>().text = "Recorde: " + record;
 
         if (numAttempts == record) FindObjectOfType<AudioManager>().Play("Victory");
